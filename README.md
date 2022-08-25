@@ -21,3 +21,6 @@ Source code posted with permission from Mark Ogden.
 
 Andrey Nikitin 20-08-2022
 
+In the program made small but important changes.
+
+ Andrey Nikitin 25-08-2022

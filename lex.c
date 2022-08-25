@@ -27,7 +27,7 @@
  * See the readme.md file for additional commentary
  *
  * Mark Ogden
- * 09-Jul-2022
+ * 10-Jul-2022
  */
 #include "p1.h"
 
@@ -509,31 +509,33 @@ void parseString(int16_t ch) {
  **************************************************/
 int16_t getCh(void) {
     int16_t ch;
-    if (ungetCh) {
-        ch      = ungetCh;
-        ungetCh = 0;
-    } else if ((ch = inBuf[inCnt++]) == 0) {
-        if (s_opt)
-            emitSrcInfo();
-        sInfoEmitted = false;
-        lInfoEmitted = false;
-
-        if (!fgets(inBuf, 512, stdin))
-            return EOF;
-        ch          = inBuf[0];
-        inCnt       = 1;
-        startTokCnt = 0;
-        lineNo++;
-        if (l_opt)
-            prErrMsg();
-    }
-#if defined(CPM) || defined(_WIN32)
-    return ch;
-#else
-    if (ch == 0x1a) /* CPM EOF */
-        return EOF;
-    return ch != '\r' ? ch : getCh();
+#if !defined(CPM) && !defined(_WIN32)
+    do {
 #endif
+        if (ungetCh) {
+            ch      = ungetCh;
+            ungetCh = 0;
+        } else if ((ch = inBuf[inCnt++]) == 0) {
+            if (s_opt)
+                emitSrcInfo();
+            sInfoEmitted = false;
+            lInfoEmitted = false;
+
+            if (!fgets(inBuf, 512, stdin))
+                return EOF;
+            ch          = inBuf[0];
+            inCnt       = 1;
+            startTokCnt = 0;
+            lineNo++;
+            if (l_opt)
+                prErrMsg();
+        }
+#if !defined(CPM) && !defined(_WIN32)
+        if (ch == 0x1a)
+            return EOF;
+    } while (ch != '\r');
+#endif
+    return ch;
 }
 
 /**************************************************

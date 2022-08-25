@@ -27,7 +27,7 @@
  * See the readme.md file for additional commentary
  *
  * Mark Ogden
- * 09-Jul-2022
+ * 10-Jul-2022
  */
 #ifndef _P1_H
 #define _P1_H
@@ -40,6 +40,7 @@
 #include <string.h>
 #ifdef __GNUC__
 #include <unistd.h>
+#define _MAX_PATH   PATH_MAX
 #endif
 #if defined(__STDC__) || defined(__STDC_VERSION__)
 #include <stdbool.h>

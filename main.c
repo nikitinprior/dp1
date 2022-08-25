@@ -27,7 +27,7 @@
  * See the readme.md file for additional commentary
  *
  * Mark Ogden
- * 09-Jul-2022
+ * 10-Jul-2022
  */
 #include "p1.h"
 
@@ -275,6 +275,8 @@ void closeFiles(void) {
         fclose(tmpFp);
         unlink(tmpFile);
     }
+    if (crfFp) /* PMO - close missing in original */
+        fclose(crfFp);
 }
 /**************************************************
  * 79: 3A80 PMO +++
